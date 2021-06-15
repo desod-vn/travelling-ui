@@ -14,7 +14,9 @@ import Logout from '../pages/auth/Logout'
 import User from '../pages/user/Profile'
 import Avatar from '../pages/user/Avatar'
 import Password from '../pages/user/Password'
-
+// BOX
+import ChatBox from '../pages/box/Chat'
+import CreateBox from '../pages/box/Create'
 
 
 export default new VueRouter({
@@ -34,30 +36,6 @@ export default new VueRouter({
             name: 'dashboard',
             meta: {
                 title: 'Trang quản trị',
-            }
-        },
-        {
-            path: '/user/:id-:slug',
-            component: User,
-            name: 'user',
-            meta: {
-                title: 'Thông tin người dùng',
-            }
-        },
-        {
-            path: '/user/avatar/',
-            component: Avatar,
-            name: 'avatar',
-            meta: {
-                title: 'Thay ảnh đại diện',
-            }
-        },
-        {
-            path: '/user/password/',
-            component: Password,
-            name: 'password',
-            meta: {
-                title: 'Đổi mật khẩu',
             }
         },
         {
@@ -84,5 +62,50 @@ export default new VueRouter({
                 title: 'Đăng xuất',
             }
         },
+
+        // USER 
+            {
+                path: '/user/:id-:slug',
+                component: User,
+                name: 'user',
+                meta: {
+                    title: 'Thông tin người dùng',
+                }
+            },
+            {
+                path: '/user/avatar/',
+                component: Avatar,
+                name: 'avatar',
+                meta: {
+                    title: 'Thay ảnh đại diện',
+                }
+            },
+            {
+                path: '/user/password/',
+                component: Password,
+                name: 'password',
+                meta: {
+                    title: 'Đổi mật khẩu',
+                }
+            },
+        
+        // BOX CHAT
+            {
+                path: '/box/:id-:slug',
+                component: ChatBox,
+                name: 'chatBox',
+                meta: {
+                    title: 'Cuộc trò chuyện',
+                }
+            },
+            {
+                path: '/box/create',
+                component: CreateBox,
+                name: 'createBox',
+                meta: {
+                    title: 'Tạo nhóm chát',
+                }
+            },
+        
     ]
 })

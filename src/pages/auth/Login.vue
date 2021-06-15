@@ -18,7 +18,7 @@
                             </div>
 
                             <div v-else>
-                                <div class="alert alert-info" v-if="errors.message">
+                                <div class="alert alert-danger" v-if="errors.message">
                                     Tên tài khoản hoặc mật khẩu không chính xác. Vui lòng kiểm tra lại.
                                 </div>
                             </div>

@@ -5,10 +5,12 @@
             <Create />
             <Place :places="places" />
         </div>
+        <Footer />
     </div>
 </template>
 <script>
 import Header from '../components/layouts/Header'
+import Footer from '../components/layouts/Footer'
 import Place from '../components/place/Place'
 import Create from '../components/place/Create'
 
@@ -44,6 +46,7 @@ export default {
         Header,
         Place,
         Create,
+        Footer,
     },
     mounted() {
         this.getPlaces()

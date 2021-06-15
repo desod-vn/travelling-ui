@@ -32,8 +32,11 @@
                     </div>
                 </div>
                 <div class="col-xl-8">
+                <div class="border">
+                <div class="bg-secondary h1 text-light p-2">Thông tin cá nhân</div>
+                <div class="p-3">
                     <p class="h2 font-weight-bold mb-4 d-flex justify-content-between">
-                        {{ user.name }}
+                        <span>{{ user.name }}</span>
                         <span v-if="!edit">
                             <button
                                 v-if="id == getUserId"
@@ -53,24 +56,29 @@
                             </button>
                         </span>
                     </p>
-                    <p class="h4"><b-icon icon="envelope-fill" /> Địa chỉ email: {{ user.email }}</p>
-                    <p class="h4"><b-icon icon="people-fill" /> Giới tính: {{ user.gender }}</p>
-                    <p class="h4"><b-icon icon="phone-fill" /> Điện thoại: {{ user.phone }}</p>
-                    <p class="h4"><b-icon icon="calendar2-check-fill" /> Ngày sinh: {{ user.birthday }}</p>
-                    <p class="h4"><b-icon icon="hdd-stack-fill" /> Trạng thái:
+                    <p class="h5"><b-icon icon="envelope-fill" /> Địa chỉ email: {{ user.email }}</p>
+                    <p class="h5"><b-icon icon="people-fill" /> Giới tính: {{ user.gender }}</p>
+                    <p class="h5"><b-icon icon="phone-fill" /> Điện thoại: {{ user.phone }}</p>
+                    <p class="h5"><b-icon icon="calendar2-check-fill" /> Ngày sinh: {{ user.birthday }}</p>
+                    <p class="h5"><b-icon icon="hdd-stack-fill" /> Trạng thái:
                         <b :class="user.deleted_at ? 'text-danger' : 'text-success'">{{ user.deleted_at ? `Bị cấm` : `Kích hoạt` }}</b>
                     </p>
+                </div>
+                </div>
                     <div class="mt-2">
                         <Edit v-if="edit" :user="user" />
                     </div>
                 </div>
             </div>
         </div>
+        <Footer />
     </div>
 </template>
 <script>
 import Header from '../../components/layouts/Header'
-import Edit from '../user/Edit'
+import Footer from '../../components/layouts/Footer'
+
+import Edit from '../../components/user/Edit'
 
 import { mapGetters } from 'vuex'
 import axios from '../../utils'
@@ -109,6 +117,7 @@ export default {
     components: {
         Header,
         Edit,
+        Footer,
     }
 }
 </script>
