@@ -1,51 +1,99 @@
 <template>
-<div>
-	<div class="row">
-		<div class="col">
-		<h1>ĐỊA ĐIỂM THÁNG</h1>
-		</div>
-		<div class="col">
-			<select class="form-control">
-				<option>Chọn tháng</option>
-			</select>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-3">
-			<div id="container">
-			<img id="image" src="https://dulichviet.com.vn/thumbs/0/358x294/images/bandidau/2019-NOI-DIA/du-lich-binh-dinh-he-2019-620x510.jpg" />
-			<p id="text">
-				Quy Nhơn
-			</p>
-			</div>
-		</div>
-		<div class="col-3">
-			<div id="container">
-			<img id="image" src="https://dulichviet.com.vn/thumbs/0/358x294/images/bandidau/2019-NOI-DIA/MIEN-BAC/DU-LICH-SAPA/tua-du-lich-sapa-gia-tot-du-lich-viet.jpg" />
-			<p id="text">
-				Sapa
-			</p>
-			</div>
-		</div>
-		<div class="col-3">
-			<div id="container">
-			<img id="image" src="https://dulichviet.com.vn/thumbs/0/358x294/images/bandidau/2019-NOI-DIA/Mi%E1%BB%81n%20B%E1%BA%AFc/620%20x%20510/tourhagiang.jpg" />
-			<p id="text">
-				Hà Giang
-			</p>
-			</div>
-		</div>
-		<div class="col-3">
-			<div id="container">
-			<img id="image" src="https://dulichviet.com.vn/thumbs/0/358x294/images/bandidau/2019-NOI-DIA/Mi%E1%BB%81n%20B%E1%BA%AFc/du%20l%E1%BB%8Bch%20H%E1%BA%A1%20Long/cao-bang.jpg" />
-			<p id="text">
-				Cao Bằng
-			</p>
-			</div>
-		</div>
-	</div>
-</div>
+  <div>
+    <div class="row">
+      <div class="col-md-12">
+        <h1 class="mt-5 mb-3">
+          <router-link
+            :to="{
+              name: 'allPlace',
+            }"
+            class="text-dark"
+          >
+            ĐỊA ĐIỂM
+          </router-link>
+        </h1>
+      </div>
+    </div>
+    <div class="row">
+      <div
+        class="col-md-6 mb-5"
+        v-for="(place, index) in all.slice(0, 2)"
+        :key="index"
+      >
+        <div id="container">
+          <router-link
+            :to="{
+              name: 'onePlace',
+              params: { id: place.id, slug: place.slug },
+            }"
+          >
+            <img id="image" :src="place.image" />
+            <p id="text">{{ place.name }}</p>
+          </router-link>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div
+        class="col-md-3"
+        v-for="(place, index) in all.slice(2, 10)"
+        :key="index + 'ok'"
+      >
+        <div id="container">
+          <img id="image" :src="place.image" />
+          <router-link
+            :to="{
+              name: 'onePlace',
+              params: { id: place.id, slug: place.slug },
+            }"
+          >
+            <p id="text">{{ place.name }}</p>
+          </router-link>
+        </div>
+      </div>
+      <div class="col-12">
+        <h5 class="text-right">
+          <router-link
+            :to="{
+              name: 'allPlace',
+            }"
+            >Xem tất cả...</router-link
+          >
+        </h5>
+      </div>
+    </div>
+  </div>
 </template>
+<script>
+import axios from "../utils";
+
+export default {
+  data() {
+    return {
+      all: "",
+    };
+  },
+  methods: {
+    getPlaces() {
+      axios
+        .get(`place`)
+        .then((response) => {
+          if (response.data.status) {
+            this.all = response.data.data;
+          }
+        })
+        .catch((error) => {
+          console.log(error.response.data);
+        });
+    },
+  },
+
+  mounted() {
+    this.getPlaces();
+  },
+};
+</script>
+
 <style scoped>
 #container {
   height: 200px;
@@ -55,22 +103,18 @@
 #image {
   position: absolute;
   left: 0;
-  max-width: 100%;
+  height: 150px;
+  width: 100%;
   top: 0;
 }
 #text {
   z-index: 100;
   position: absolute;
   color: white;
-  font-size: 24px;
+  font-size: 2rem;
   font-weight: bold;
-bottom: 0;
-text-shadow: 2px 2px 5px #000;
-	left: 1;
+  bottom: 25%;
+  text-shadow: 3px 3px 15px #000;
+  left: 1;
 }
 </style>
-<script>
-  export default {
-   
-  }
-</script>

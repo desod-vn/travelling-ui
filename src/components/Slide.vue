@@ -1,37 +1,62 @@
 <template>
-    <div>
-      <div class="row mt-5">
-		<div class="col">
-		<h1>Địa điểm đáng tham gia</h1>
-		</div>
-		
-	</div>
-  <b-carousel
-    id="carousel-fade"
-    style="text-shadow: 0px 0px 2px #000"
-    fade
-    indicators
-    img-width="1024"
-    img-height="480"
-  >
-    <b-carousel-slide
-      caption="First slide"
-      img-src="https://picsum.photos/1024/480/?image=10"
-    ></b-carousel-slide>
-    <b-carousel-slide
-      caption="Second Slide"
-      img-src="https://picsum.photos/1024/480/?image=12"
-    ></b-carousel-slide>
-    <b-carousel-slide
-      caption="Third Slide"
-      img-src="https://picsum.photos/1024/480/?image=22"
-    ></b-carousel-slide>
-  </b-carousel>
-</div>
+  <div class="row bg-white">
+    <div class="col-md-12">
+      <img class="img-fluid" src="../assets/banner/1.jpg" alt="" />
+    </div>
+    <div class="col-md-4">
+      <div class="ban">
+        <div class="ban--icon">
+          <b-icon icon="people-fill" />
+        </div>
+        <div class="ban--title">KẾT NỐI</div>
+        <div class="ban--des">Kết nối dễ dàng thông qua trò chuyện</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="ban">
+        <div class="ban--icon">
+          <b-icon icon="calendar2-check-fill" />
+        </div>
+        <div class="ban--title">THỐNG NHẤT</div>
+        <div class="ban--des">Lịch trình được quản lý rõ ràng, đầy đủ</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="ban">
+        <div class="ban--icon">
+          <b-icon icon="heart-fill" />
+        </div>
+        <div class="ban--title">TIỆN LỢI</div>
+        <div class="ban--des">Gặp gỡ những người cùng đam mê, sở thích</div>
+      </div>
+    </div>
+  </div>
 </template>
+
 <script>
-
-export default {
-
-}
+export default {};
 </script>
+
+<style>
+.ban {
+  background-color: #fff;
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.ban--icon {
+  color: #f6993f;
+  font-size: 1.5rem;
+}
+.ban--title {
+  color: #000;
+  font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.ban--des {
+  color: #000;
+  font-size: 0.8rem;
+}
+</style>

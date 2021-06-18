@@ -14,9 +14,17 @@ import Logout from '../pages/auth/Logout'
 import User from '../pages/user/Profile'
 import Avatar from '../pages/user/Avatar'
 import Password from '../pages/user/Password'
+import My from '../pages/user/My'
 // BOX
 import ChatBox from '../pages/box/Chat'
 import CreateBox from '../pages/box/Create'
+import EditBox from '../pages/box/Edit'
+import AllBox from '../pages/box/All'
+
+// PLACE
+import OnePlace from '../pages/place/One'
+import AllPlace from '../pages/place/All'
+
 
 
 export default new VueRouter({
@@ -88,6 +96,14 @@ export default new VueRouter({
                     title: 'Đổi mật khẩu',
                 }
             },
+            {
+                path: '/user/my/',
+                component: My,
+                name: 'myBox',
+                meta: {
+                    title: 'Nhóm của tôi',
+                }
+            },
         
         // BOX CHAT
             {
@@ -104,6 +120,40 @@ export default new VueRouter({
                 name: 'createBox',
                 meta: {
                     title: 'Tạo nhóm chát',
+                }
+            },
+            {
+                path: '/box/edit/:id-:slug',
+                component: EditBox,
+                name: 'editBox',
+                meta: {
+                    title: 'Sửa cuộc trò chuyện',
+                }
+            },
+            {
+                path: '/box',
+                component: AllBox,
+                name: 'allBox',
+                meta: {
+                    title: 'Tất cả nhóm trò chuyện',
+                }
+            },
+
+            // PLACE
+            {
+                path: '/place/:id-:slug',
+                component: OnePlace,
+                name: 'onePlace',
+                meta: {
+                    title: 'Địa điểm',
+                }
+            },
+            {
+                path: '/place',
+                component: AllPlace,
+                name: 'allPlace',
+                meta: {
+                    title: 'Tất cả địa điểm',
                 }
             },
         

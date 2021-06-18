@@ -11,13 +11,15 @@
               >Thêm</b-button
             >
             <b-modal v-if="show" id="add" title="Thêm lịch trình" ok-only>
-              <label for="date">Ngày:</label>
+              <label for="date">Ngày: <b class="text-danger">*</b></label>
               <b-form-input type="date" id="date" v-model="date"></b-form-input>
 
-              <label for="time">Giờ:</label>
+              <label for="time">Giờ: <b class="text-danger">*</b></label>
               <b-form-input type="time" id="time" v-model="time"></b-form-input>
 
-              <label for="action">Hoạt động:</label>
+              <label for="action"
+                >Hoạt động: <b class="text-danger">*</b></label
+              >
               <b-form-input
                 type="text"
                 id="action"
@@ -32,13 +34,15 @@
               ></b-form-input>
               <br />
               <button class="btn btn-danger" @click="add()">Thêm</button>
+              <template #modal-footer>
+                <div></div>
+              </template>
             </b-modal>
           </th>
         </tr>
       </thead>
       <tbody>
-        <div class="d-none">
-        </div>
+        <div class="d-none"></div>
         <tr v-for="(notification, index) in box.notifications" :key="index">
           <td>{{ notification.time }}</td>
           <td>{{ notification.action }}</td>
@@ -51,10 +55,10 @@
               >
                 Xóa
               </span>
-              <span
-                class="btn btn-primary"
-                @click.prevent="
-                  edit(
+              <b-button
+                v-b-modal.edit
+                @click="
+                  change(
                     notification.id,
                     notification.time,
                     notification.action,
@@ -62,54 +66,29 @@
                     notification.box_id
                   )
                 "
+                variant="info"
+                >Sửa</b-button
               >
-                Sửa
-              </span>
             </div>
           </td>
         </tr>
       </tbody>
     </table>
-    <b-alert show>
-      <h5>Thông báo</h5>
-      <hr />
-      {{ box.content }}
-    </b-alert>
-    <b-list-group>
-      <b-list-group-item>
-        <b-icon icon="capslock" /> Địa điểm:
-        <strong>{{ box.place.name }}</strong>
-      </b-list-group-item>
-      <b-list-group-item>
-        <b-icon icon="shield-lock" /> Tổ chức:
-        <strong>
-          <router-link
-            :to="{
-              name: 'user',
-              params: { id: box.user.id, slug: box.user.slug },
-            }"
-          >
-            {{ box.user.name }}
-          </router-link>
-        </strong>
-      </b-list-group-item>
-      <b-list-group-item>
-        <b-icon icon="people" /> Số lượng:
-        <strong>{{ box.people }}</strong>
-      </b-list-group-item>
-      <b-list-group-item>
-        <b-icon icon="bicycle" /> Phương tiện:
-        <strong>{{ box.vehicle }}</strong>
-      </b-list-group-item>
-      <b-list-group-item>
-        <b-icon icon="cash" /> Kinh phí:
-        <strong>{{ box.fee }}</strong>
-      </b-list-group-item>
-      <b-list-group-item>
-        <b-icon icon="star" /> Trạng thái:
-        <strong>{{ box.status }}</strong>
-      </b-list-group-item>
-    </b-list-group>
+    <b-modal v-if="editStatus" id="edit" title="Sửa lịch trình" ok-only>
+      <label for="date">Ngày - Giờ: <b class="text-danger">*</b></label>
+      <b-form-input type="text" id="date" v-model="editDate"></b-form-input>
+
+      <label for="action">Hoạt động: <b class="text-danger">*</b></label>
+      <b-form-input type="text" id="action" v-model="editAction"></b-form-input>
+
+      <label for="note">Ghi chú:</label>
+      <b-form-input type="text" id="note" v-model="editNote"></b-form-input>
+      <br />
+      <button class="btn btn-info" @click="edit()">Cập nhật</button>
+      <template #modal-footer>
+        <div></div>
+      </template>
+    </b-modal>
   </div>
 </template>
 
@@ -121,8 +100,16 @@ export default {
   data() {
     return {
       show: false,
+      editStatus: false,
       date: "",
       time: "",
+      editBox: "",
+      editDateTime: "",
+      editDate: "",
+      editTime: "",
+      editAction: "",
+      editNote: "",
+      editId: "",
       notification: {
         time: "",
         action: "",
@@ -146,7 +133,7 @@ export default {
           if (response.data.status) {
             this.show = false;
             this.$parent.getBox();
-            this.$parent.success("Lịch trình", "tạo mới");
+            this.success("Lịch trình", "tạo mới");
             this.notification.time = "";
             this.notification.action = "";
             this.notification.note = "";
@@ -155,8 +142,16 @@ export default {
           }
         })
         .catch((error) => {
-          this.$parent.failure(error.response.data);
+          this.failure(error.response.data);
         });
+    },
+    change(id, time, action, note, box) {
+      this.editStatus = true;
+      this.editId = id;
+      this.editBox = box;
+      this.editDate = time;
+      this.editAction = action;
+      this.editNote = note;
     },
 
     deleteN(notification) {
@@ -170,27 +165,46 @@ export default {
         });
     },
 
-    edit(id, time, action, note, box) {
-	let editTime = prompt("Vui lòng nhập mốc thời gian muốn sửa", time);
-      let editAction = prompt("Vui lòng nhập tên hoạt động muốn sửa", action);
-      let editNote = prompt("Vui lòng nhập ghi chú cho muốn sửa", note == "null" ? '' : note);
+    success(name, action) {
+      this.$bvToast.toast(`${name} đã được ${action} thành công.`, {
+        title: "Thông báo",
+        variant: "success",
+        solid: true,
+      });
+    },
+
+    failure(error) {
+      let err = "";
+      for (const property in error.errors) {
+        err += `${error.errors[property]}`;
+      }
+
+      this.$bvToast.toast(`${err}`, {
+        title: `Có lỗi vui lòng thử lại`,
+        variant: "danger",
+        solid: true,
+      });
+    },
+
+    edit() {
       let notification = {
-        time: editTime,
-        action: editAction,
-        note: editNote,
-        box_id: box,
+        time: this.editDate,
+        action: this.editAction,
+        note: this.editNote,
+        box_id: this.editBox,
       };
       if (notification != null) {
         axios
-          .put(`notification/${id}`, notification)
+          .put(`notification/${this.editId}`, notification)
           .then((response) => {
             if (response.data.status) {
+              this.editStatus = false;
               this.$parent.getBox();
-              this.$parent.success("Lịch trình", "cập nhật");
+              this.success("Lịch trình", "cập nhật");
             }
           })
           .catch((error) => {
-            this.$parent.failure(error.response.data);
+            this.failure(error.response.data);
           });
       }
     },

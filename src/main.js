@@ -17,6 +17,16 @@ Router.beforeEach((to, from, next) => {
   next()
 })
 
+import Echo from 'laravel-echo'
+window.Echo = new Echo({
+  broadcaster: 'pusher',
+  key: 'cffe2f0adaba8cdaaee6',
+  cluster: 'ap1',
+  forceTLS: true
+});
+
+
+
 new Vue({
   router: Router,
   store: Store,

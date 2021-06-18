@@ -6,7 +6,9 @@
       <hr />
       <form class="mx-auto" @submit.prevent="handle()">
         <div class="form-group">
-          <label class="form-control-label">Tên nhóm chát: </label>
+          <label class="form-control-label"
+            >Tên nhóm chát: <b class="text-danger">*</b></label
+          >
           <input
             type="text"
             name="name"
@@ -16,7 +18,7 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label">Hình ảnh: </label>
+          <label class="form-control-label">Hình ảnh: <b class="text-danger">*</b></label>
           <input
             type="file"
             name="image"
@@ -27,7 +29,7 @@
 
         <div class="row">
           <div class="col">
-            <label class="form-control-label">Phương tiện: </label>
+            <label class="form-control-label">Phương tiện: <b class="text-danger">*</b></label>
             <input
               type="text"
               name="name"
@@ -36,7 +38,7 @@
             />
           </div>
           <div class="col">
-            <label class="form-control-label">Số người: </label>
+            <label class="form-control-label">Số người: <b class="text-danger">*</b></label>
             <input
               type="number"
               name="name"
@@ -66,7 +68,7 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label">Thông tin chung</label>
+          <label class="form-control-label">Thông tin chung: </label>
           <textarea
             class="form-control"
             v-model="box.content"
@@ -75,7 +77,7 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label">Địa điểm: </label>
+          <label class="form-control-label">Địa điểm: <b class="text-danger">*</b></label>
           <div class="border p-3">
             <div class="input-group mt-3 mb-2">
               <div class="input-group-prepend">
@@ -107,7 +109,7 @@
         </div>
         <div class="row">
           <div class="col">
-            <label class="form-control-label">Ngày bắt đầu: </label>
+            <label class="form-control-label">Ngày bắt đầu: <b class="text-danger">*</b></label>
             <input
               type="date"
               name="name"
@@ -116,7 +118,7 @@
             />
           </div>
           <div class="col">
-            <label class="form-control-label">Ngày kết thúc: </label>
+            <label class="form-control-label">Ngày kết thúc: <b class="text-danger">*</b></label>
             <input
               type="date"
               name="name"
@@ -184,7 +186,7 @@ export default {
       data.append("content", this.box.content);
       data.append("vehicle", this.box.vehicle);
       data.append("people", this.box.people);
-      data.append("fee", this.box.fee);
+      data.append("fee", this.box.fee || 0);
       data.append("start", this.box.start);
       data.append("end", this.box.end);
       data.append("place_id", this.box.place_id);
@@ -195,7 +197,13 @@ export default {
         .then((response) => {
           if (response.data.status) {
             this.success();
-            this.$router.push({ name: "chatBox", params: { id: response.data.data.id, slug: response.data.data.slug }, });
+            this.$router.push({
+              name: "chatBox",
+              params: {
+                id: response.data.data.id,
+                slug: response.data.data.slug,
+              },
+            });
           }
         })
         .catch((error) => {

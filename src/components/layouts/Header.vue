@@ -140,6 +140,7 @@ export default {
 .blue {
   background: #2196f3;
 }
+
 .desod--link {
   text-transform: uppercase;
   color: white;
