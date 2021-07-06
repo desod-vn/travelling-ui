@@ -95,6 +95,7 @@
 <script>
 import { mapGetters } from "vuex";
 import axios from "../../utils";
+window.pusher = require("pusher-js");
 
 export default {
   data() {
@@ -123,6 +124,12 @@ export default {
   },
   props: ["box"],
   methods: {
+    realUpdate() {
+      window.Echo.channel(`update-box.${this.$parent.id}`).listen(".UpdateBox", () => {
+        this.$parent.getBox()
+      }
+      );
+    },
     add() {
       this.notification.box_id = this.box.id;
       this.notification.time = this.date + " - " + this.time;
@@ -139,6 +146,8 @@ export default {
             this.notification.note = "";
             this.date = "";
             this.time = "";
+            this.realUpdate();
+
           }
         })
         .catch((error) => {
@@ -208,6 +217,10 @@ export default {
           });
       }
     },
+    
   },
+  mounted() {
+    this.realUpdate()
+  }
 };
 </script>
